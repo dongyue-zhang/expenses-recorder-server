@@ -6,6 +6,7 @@ const path = require("path");
 const connectMongoDB = require('./config/db.js');
 const cors = require('cors');
 const Expense = require('./model/expense.model');
+const { render } = require('nodeman/lib/mustache.js');
 
 const port = 5001;
 
@@ -14,7 +15,7 @@ const app = express();
 // app.engine('html', hbs.__express);
 
 // app.set("views", path.join(__dirname, "../public"));
-app.use(express.static(path.join(__dirname + '/../public')));
+// app.use(express.static(path.join(__dirname + '/../public')));
 app.use(bodyParser.json());
 app.use(cors());
 
@@ -25,7 +26,7 @@ connectMongoDB().then(()=> {
 
 // if (process.env.NODE_ENV === "production") {
 //     app.use(express.static('build'));
-app.get('/', async (req, res) => {
+app.get('/records', async (req, res) => {
     try {
         const expenses = await Expense.find();
         res.status(200).json(expenses);
@@ -33,6 +34,9 @@ app.get('/', async (req, res) => {
         res.status(500).json({message: 'Server Error'})
     }
     
+})
+app.get('/', async (req, res) => {
+    res.status(200).json('hello world');
 })
 
 app.post('/records', async (req, res) => {
