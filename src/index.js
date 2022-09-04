@@ -26,7 +26,7 @@ connectMongoDB().then(()=> {
 
 // if (process.env.NODE_ENV === "production") {
 //     app.use(express.static('build'));
-app.get('/records', async (req, res) => {
+app.get('/', async (req, res) => {
     try {
         const expenses = await Expense.find();
         res.status(200).json(expenses);
@@ -35,9 +35,9 @@ app.get('/records', async (req, res) => {
     }
     
 })
-app.get('/', async (req, res) => {
-    res.status(200).json('hello world');
-})
+// app.get('/', async (req, res) => {
+//     res.status(200).json('hello world');
+// })
 
 app.post('/records', async (req, res) => {
     let { record } = req.body;
